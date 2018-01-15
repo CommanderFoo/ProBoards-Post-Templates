@@ -15,6 +15,7 @@ var Post_Templates = function () {
 			this.PLUGIN_ID = "pd_post_templates";
 			this.settings = {};
 			this.images = {};
+			this.key_id = yootil.user.logged_in() ? "_" + parseInt(yootil.user.id(), 10) : "";
 
 			this.saved_templates = this.load_saved_templates();
 
@@ -64,7 +65,7 @@ var Post_Templates = function () {
 	}, {
 		key: "load_saved_templates",
 		value: function load_saved_templates() {
-			var tpls = localStorage.getItem("post_templates");
+			var tpls = localStorage.getItem("post_templates" + this.key_id);
 
 			if (tpls && tpls.length) {
 				return JSON.parse(tpls);
@@ -197,7 +198,7 @@ var Post_Templates = function () {
 
 			};
 
-			localStorage.setItem("post_templates", JSON.stringify(templates));
+			localStorage.setItem("post_templates" + this.key_id, JSON.stringify(templates));
 		}
 	}, {
 		key: "remove_template",
@@ -206,7 +207,7 @@ var Post_Templates = function () {
 
 			if (templates[id]) {
 				delete templates[id];
-				localStorage.setItem("post_templates", JSON.stringify(templates));
+				localStorage.setItem("post_templates" + this.key_id, JSON.stringify(templates));
 			}
 		}
 	}, {

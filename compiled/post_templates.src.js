@@ -4,6 +4,7 @@ class Post_Templates {
 		this.PLUGIN_ID = "pd_post_templates";
 		this.settings = {};
 		this.images = {};
+		this.key_id = (yootil.user.logged_in())? ("_" + parseInt(yootil.user.id(), 10)) : "";
 
 		this.saved_templates = this.load_saved_templates();
 
@@ -50,7 +51,7 @@ class Post_Templates {
 	}
 
 	static load_saved_templates(){
-		let tpls = localStorage.getItem("post_templates");
+		let tpls = localStorage.getItem("post_templates" + this.key_id);
 
 		if(tpls && tpls.length){
 			return JSON.parse(tpls);
@@ -178,7 +179,7 @@ class Post_Templates {
 
 		};
 
-		localStorage.setItem("post_templates", JSON.stringify(templates));
+		localStorage.setItem("post_templates" + this.key_id, JSON.stringify(templates));
 	}
 
 	static remove_template(id){
@@ -186,7 +187,7 @@ class Post_Templates {
 
 		if(templates[id]){
 			delete templates[id];
-			localStorage.setItem("post_templates", JSON.stringify(templates));
+			localStorage.setItem("post_templates" + this.key_id, JSON.stringify(templates));
 		}
 	}
 
